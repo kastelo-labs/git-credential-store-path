@@ -12,13 +12,18 @@ Add the following to your `~/.gitconfig`:
 
 ```
 [credential]
-	helper = store-path
+    helper = store-path
+    useHttpPath = true
 [url "https://github.com/"]
     insteadOf = git@github.com:
 ```
 
 The URL replacement is to force usage of HTTPS instead of SSH, as the
 credentials helper can't assist with SSH connections.
+
+On mac you may also need to run `git config --system --unset
+credential.helper` to avoid the default `osxkeychain` caching the login,
+as it does not care about the path.
 
 ## Usage
 
