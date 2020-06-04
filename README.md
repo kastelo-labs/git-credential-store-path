@@ -1,8 +1,8 @@
 # git-credential-store-path
 
-This is a Git credential helper that can serve different credentials based
-on the repo path. It's useful when you have multiple GitHub users with
-access to different organizations.
+This is a Git credential helper that can serve different credentials
+based on the repo path prefix. It's useful when you have multiple GitHub
+users with access to different organizations.
 
 ## Installation
 
