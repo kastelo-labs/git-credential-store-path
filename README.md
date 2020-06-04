@@ -13,7 +13,12 @@ Add the following to your `~/.gitconfig`:
 ```
 [credential]
 	helper = store-path
+[url "https://github.com/"]
+    insteadOf = git@github.com:
 ```
+
+The URL replacement is to force usage of HTTPS instead of SSH, as the
+credentials helper can't assist with SSH connections.
 
 ## Usage
 
