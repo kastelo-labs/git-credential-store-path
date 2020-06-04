@@ -2,9 +2,9 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"io"
-	"log"
 	"net/url"
 	"os"
 	"path/filepath"
@@ -20,19 +20,40 @@ const (
 )
 
 func main() {
-	log.SetFlags(0)
+	flag.Parse()
+	if flag.NArg() == 0 {
+		fmt.Printf("Usage: %s <get|store|erase>\n", os.Args[0])
+		os.Exit(2)
+	}
+
+	switch flag.Arg(0) {
+	case "store", "erase":
+		os.Exit(0)
+	case "get":
+		handleGet()
+	default:
+		fmt.Printf("Usage: %s <get|store|erase>\n", os.Args[0])
+		os.Exit(2)
+	}
+}
+
+func handleGet() {
 	home, err := os.UserHomeDir()
 	if err != nil {
-		log.Fatal("Home directory:", err)
+		fmt.Println("Home directory:", err)
+		os.Exit(1)
 	}
+
 	creds, err := loadCredentials(filepath.Join(home, ".git-credentials"))
 	if err != nil {
-		log.Fatal("Load credentials:", err)
+		fmt.Println("Load credentials:", err)
+		os.Exit(1)
 	}
 
 	vals, err := readMap(os.Stdin)
 	if err != nil {
-		log.Fatal("Read values:", err)
+		fmt.Println("Read values:", err)
+		os.Exit(1)
 	}
 
 	cred := lookupCredential(vals, creds)
