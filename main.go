@@ -77,6 +77,7 @@ func handleGet() {
 }
 
 func lookupCredential(m map[string]string, creds []*url.URL) *url.URL {
+	var potential *url.URL
 	for _, cred := range creds {
 		if cred.Scheme != m[schemeField] {
 			continue
@@ -95,10 +96,14 @@ func lookupCredential(m map[string]string, creds []*url.URL) *url.URL {
 		if wantPath != "" && cred.Path != "" && !strings.HasPrefix(wantPath, cred.Path) {
 			continue
 		}
+		if wantPath == "" && cred.Path != "" {
+			potential = cred
+			continue
+		}
 
 		return cred
 	}
-	return nil
+	return potential
 }
 
 func loadCredentials(path string) ([]*url.URL, error) {
